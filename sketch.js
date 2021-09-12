@@ -1,15 +1,12 @@
-//namespacing
 const Engine = Matter.Engine;
 const World= Matter.World;
 const Bodies = Matter.Bodies;
-//línea nueva
 const Constraint = Matter.Constraint;
 
 var engine, world;
 var box1, pig1;
 var backgroundImg,platform;
-//línea nueva
-var constrainedLog;
+var bird, slingShot;
 
 function preload() {
     backgroundImg = loadImage("sprites/bg.png");
@@ -20,8 +17,7 @@ function setup(){
     engine = Engine.create();
     world = engine.world;
 
-    //linea nueva
-    constrainedLog = new Log(230, 600, 80, PI/2);
+
     ground = new Ground(600,height,1200,20);
     platform = new Ground(150, 305, 300, 170);
 
@@ -42,25 +38,14 @@ function setup(){
 
     bird = new Bird(100,100);
 
-    //líneas nuevas
-    var options = {
-        bodyA: bird.body,
-        bodyB: constrainedLog.body, 
-        length: 20,
-        stifness: 0.04
-    }
-
-    var chain = Constraint.create(options);
-    World.add(world,chain);
-    //termina pedazo nuevo
+    log6 = new Log(230,180,80, PI/2);
+    chain = new Chain(bird.body,log6.body);
 }
 
 function draw(){
     background(backgroundImg);
     Engine.update(engine);
-    console.log(box2.body.position.x);
-    console.log(box2.body.position.y);
-    console.log(box2.body.angle);
+    strokeWeight(4);
     box1.display();
     box2.display();
     ground.display();
@@ -78,8 +63,6 @@ function draw(){
 
     bird.display();
     platform.display();
-    //linea nueva
-    constrainedLog.display();
-    strokeWeight(3);
-    line(bird.body.position.x, bird.body.position.y, constrainedLog.body.position.x, constrainedLog.body.position.y);
+    log6.display();
+    chain.display();    
 }
